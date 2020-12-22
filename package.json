@@ -8,8 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "core-js": "^3.6.5",
-    "vue": "^3.0.0"
+    "https": "^1.0.0",
+    "v-pagination-3": "^0.1.2",
+    "vue": "^3.0.0",
+    "vue-loading-overlay": "^3.4.2",
+    "vue-router": "^4.0.1",
+    "vue-simple-spinner": "^1.2.10",
+    "vue-sliding-pagination": "^1.1.2",
+    "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
