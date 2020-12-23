@@ -1,5 +1,5 @@
 <template>
-    <div class="loading">&#8230;</div>
+    <div class="loading"></div>
 </template>
 
 <style scoped>
@@ -17,7 +17,9 @@
         height: 30px;
     }
 
+
     /* Transparent Overlay */
+
     .loading:before {
         content: '';
         display: block;
@@ -39,21 +41,19 @@
         border: 0;
     }
 
+
     .loading:not(:required):after {
         content: '';
         display: block;
         font-size: 10px;
-        width: 50px;
-        height: 50px;
+        width: 25px;
+        height: 25px;
         margin-top: -0.5em;
-
-        border: 15px solid rgb(78, 114, 190);
+        border: 8px solid rgb(78, 114, 190);
         border-radius: 100%;
         border-bottom-color: transparent;
         -webkit-animation: spinner 1s linear 0s infinite;
         animation: spinner 1s linear 0s infinite;
-
-
     }
 
     /* Animation */

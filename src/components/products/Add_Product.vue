@@ -109,6 +109,7 @@
 <style scoped>
     section {
         padding: 20px 100px;
+        height: 100vh;
     }
 
     form {
