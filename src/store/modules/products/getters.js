@@ -10,6 +10,6 @@ export default {
         return state.productsInfo.totalCount
     },
     hasProdcuts(state) {
-        return state.productsInfo.products && state.productsInfo.products.length > 0
+        return state.productsInfo.totalCount && state.productsInfo.products.length > 0
     }
 }

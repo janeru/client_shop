@@ -84,6 +84,7 @@
 
 
             const hasProducts = computed(function () {
+
                 return store.getters['product/hasProdcuts']
             })
 
@@ -104,7 +105,7 @@
         /* Make products flex in row direction (default) */
         margin: 50px 100px;
         grid-gap: 20px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        grid-template-columns: repeat(4, minmax(260px, 1fr));
         justify-content: center;
         align-content: center;
 
@@ -124,6 +125,29 @@
         outline: none;
         padding: 3px 6px;
         color: white
+    }
+
+    @media only screen and (max-width: 1200px) {
+        .product {
+            grid-template-columns: repeat(3, minmax(260px, 1fr));
+
+        }
+    }
+
+    @media only screen and (max-width: 800px) {
+        .product {
+
+            grid-template-columns: repeat(2, minmax(260px, 1fr));
+
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .product {
+
+            grid-template-columns: repeat(1, minmax(260px, 1fr));
+
+        }
     }
 </style>
 
