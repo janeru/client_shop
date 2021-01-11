@@ -8,23 +8,25 @@
         </basic-dialog>
     </teleport>
     <div class="mainProducts" v-if="hasProducts">
+        <div class="productView">
+            <div class="priceSorting">
+                <button class="sorting" @click="sort('asc')" :class="{selected: sorting === 'asc'}">價格<i
+                        class="fa fa-sort-amount-asc" aria-hidden="true"></i></button>
+                <button class="sorting" @click="sort('desc')" :class="{selected: sorting === 'desc'}">價格<i
+                        class="fa fa-sort-amount-desc" aria-hidden="true"></i></button>
+            </div>
+            <section class="product">
 
-        <div class="priceSorting">
-            <button class="sorting" @click="sort('asc')" :class="{selected: sorting === 'asc'}">價格<i
-                    class="fa fa-sort-amount-asc" aria-hidden="true"></i></button>
-            <button class="sorting" @click="sort('desc')" :class="{selected: sorting === 'desc'}">價格<i
-                    class="fa fa-sort-amount-desc" aria-hidden="true"></i></button>
+                <ProductItem v-for="productItem in productData" :productItem="productItem" :key="productItem.id"
+                    @fetchProduct="getProductData">
+
+                </ProductItem>
+
+            </section>
         </div>
-        <section class="product">
-
-            <ProductItem v-for="productItem in productData" :productItem="productItem" :key="productItem.id"
-                @fetchProduct="getProductData">
-
-            </ProductItem>
-
-        </section>
         <pagination v-model="nowPage" :records="totalCount" :per-page="limit" @paginate="setPage" hasRecords="false" />
     </div>
+
     <no-data-view v-else></no-data-view>
 </template>
 
@@ -32,7 +34,6 @@
     import { ref, onMounted, computed } from 'vue'
     import ProductItem from './Product_Item'
     import useSort from '../../hooks/sort'
-
     import NoDataView from '@/components/NoData.vue/NoDataView'
     import Pagination from 'v-pagination-3';
     import { useStore } from 'vuex'
@@ -49,15 +50,26 @@
             const limit = ref(20)
             const error = ref(null)
             const store = useStore()
+
             onMounted(() => {
                 getProductData()
             })
             async function getProductData() {
                 isLoading.value = true
                 try {
-                    await store.dispatch('product/loadProductInfo', {
-                        queryParams: { page: nowPage.value, limit: limit.value }
-                    })
+                    console.log("hasNowProdcuts:" + displayedItems.value.length)
+                    if (displayedItems.value.length === 1 && nowPage.value > 1) {
+
+                        await store.dispatch('product/loadProductInfo', {
+                            queryParams: { page: nowPage.value - 1, limit: limit.value }
+                        })
+
+                    } else {
+                        await store.dispatch('product/loadProductInfo', {
+                            queryParams: { page: nowPage.value, limit: limit.value }
+                        })
+                    }
+
                     // 等到上面資料拿到，loading就可以停止
                     isLoading.value = false
                 } catch (err) {
@@ -97,18 +109,22 @@
 </script>
 <style scoped>
     .mainProducts {
-        padding-bottom: 60px;
+        padding-bottom: 50px;
     }
 
     .product {
         display: grid;
         /* Make products flex in row direction (default) */
-        margin: 50px 100px;
+        margin: 30px 60px;
         grid-gap: 20px;
-        grid-template-columns: repeat(4, minmax(260px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 240px));
         justify-content: center;
         align-content: center;
 
+    }
+
+    .productView {
+        min-height: 100vh
     }
 
     .priceSorting {
@@ -126,34 +142,14 @@
         padding: 3px 6px;
         color: white
     }
-
-    @media only screen and (max-width: 1200px) {
-        .product {
-            grid-template-columns: repeat(3, minmax(260px, 1fr));
-
-        }
-    }
-
-    @media only screen and (max-width: 800px) {
-        .product {
-
-            grid-template-columns: repeat(2, minmax(260px, 1fr));
-
-        }
-    }
-
-    @media only screen and (max-width: 600px) {
-        .product {
-
-            grid-template-columns: repeat(1, minmax(260px, 1fr));
-
-        }
-    }
 </style>
 
 <style>
     .VuePagination {
         position: relative;
+        padding: 10px 10px;
+        top: 10px;
+        bottom: 20px;
     }
 
     nav>ul.VuePagination__pagination.pagination.VuePagination__pagination {

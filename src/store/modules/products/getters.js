@@ -10,6 +10,11 @@ export default {
         return state.productsInfo.totalCount
     },
     hasProdcuts(state) {
-        return state.productsInfo.totalCount && state.productsInfo.products.length > 0
+        console.log(state.productsInfo.totalCount)
+        return state.productsInfo.totalCount > 0
+    },
+    hasNowProdcuts(state) {
+        console.log(state.productsInfo.products.length)
+        return state.productsInfo.products.length > 0
     }
 }
